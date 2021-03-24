@@ -17,9 +17,9 @@ class UserModelAdapter extends TypeAdapter<UserModel> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return UserModel(
-      expiryDate: fields[1] as DateTime,
-      userId: fields[2] as String,
-      token: fields[0] as String,
+      emal: fields[0] as String,
+      password: fields[1] as String,
+      isAdmin: fields[2] as bool,
     );
   }
 
@@ -28,11 +28,11 @@ class UserModelAdapter extends TypeAdapter<UserModel> {
     writer
       ..writeByte(3)
       ..writeByte(0)
-      ..write(obj.token)
+      ..write(obj.emal)
       ..writeByte(1)
-      ..write(obj.expiryDate)
+      ..write(obj.password)
       ..writeByte(2)
-      ..write(obj.userId);
+      ..write(obj.isAdmin);
   }
 
   @override

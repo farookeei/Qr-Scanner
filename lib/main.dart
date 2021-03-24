@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -14,9 +15,11 @@ import 'core/services/dependecyInjection.dart';
 
 void main() async {
   envConfig();
-  serviceLocators();
   WidgetsFlutterBinding.ensureInitialized();
   await hiveInitalSetup();
+  await Firebase.initializeApp();
+  serviceLocators();
+
   runApp(MyApp());
 }
 
@@ -35,7 +38,11 @@ class MyApp extends StatelessWidget {
         home: Consumer<AuthProvider>(
           builder: (ctx, _authProvider, _) {
             _authProvider.accessUserData();
-            return _authProvider.isUserSigned ? Userhome() : LoginScreen();
+            return _authProvider.isUserSigned
+                ? _authProvider.isUserAdmin
+                    ? AdminHome()
+                    : Userhome()
+                : LoginScreen();
           },
         ),
         routes: routes(),

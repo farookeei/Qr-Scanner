@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:hive/hive.dart';
 
 part 'user_model.g.dart';
@@ -5,19 +6,12 @@ part 'user_model.g.dart';
 @HiveType(typeId: 1)
 class UserModel {
   @HiveField(0)
-  final String token;
+  final String emal;
   @HiveField(1)
-  final DateTime expiryDate;
+  final String password;
   @HiveField(2)
-  final String userId;
+  final bool isAdmin;
 
-  UserModel({this.expiryDate, this.userId, this.token});
-
-  static UserModel convert(Map data) {
-    return UserModel(
-        token: data["idToken"],
-        userId: data["localId"],
-        expiryDate: DateTime.now()
-            .add(Duration(seconds: int.parse(data["expiresIn"]))));
-  }
+  UserModel(
+      {@required this.emal, @required this.password, @required this.isAdmin});
 }

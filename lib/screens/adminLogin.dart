@@ -5,6 +5,7 @@ import 'package:qr_user/core/provider/authProvider.dart';
 import 'package:qr_user/core/services/dependecyInjection.dart';
 import 'package:qr_user/core/validators/validator.dart';
 import 'package:qr_user/screens/adminhome.dart';
+import 'package:qr_user/screens/adminregistor.dart';
 import 'package:qr_user/screens/allScreens.dart';
 import 'package:qr_user/screens/generate_qr.dart';
 import 'package:qr_user/screens/user_registor.dart';
@@ -21,40 +22,46 @@ class AdminLoginScreen extends StatefulWidget {
 bool _isLoading = false;
 
 class _AdminLoginScreenState extends State<AdminLoginScreen> {
+  Validators _validators = locator<Validators>();
+  final GlobalKey<ScaffoldMessengerState> _scaffoldKey =
+      GlobalKey<ScaffoldMessengerState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  Map<String, String> _authData = {
+    'email': '',
+    'password': '',
+  };
+  // void erorHandler(e) {
+  //   errorHandler(e, _scaffoldKey, context);
+  // }
+
+  Future<void> login() async {
+    if (!_formKey.currentState.validate()) return;
+    _formKey.currentState.save();
+
+    setState(() => _isLoading = true);
+
+    try {
+      final _authProvider = Provider.of<AuthProvider>(context, listen: false);
+
+      await _authProvider.adminLogin(
+          email: _authData['email'], password: _authData['password']);
+
+      // if (_authProvider.isUserAdmin) {
+      //   Navigator.pushReplacementNamed(context, AdminHome.routeName);
+      // }
+      print("object");
+      setState(() => _isLoading = false);
+      Navigator.pushReplacementNamed(context, AdminHome.routeName);
+    } catch (e) {
+      setState(() => _isLoading = false);
+      print(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    Validators _validators = locator<Validators>();
-    final GlobalKey<ScaffoldMessengerState> _scaffoldKey =
-        GlobalKey<ScaffoldMessengerState>();
-    final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-    Map<String, String> _authData = {
-      'email': '',
-      'password': '',
-    };
-    // void erorHandler(e) {
-    //   errorHandler(e, _scaffoldKey, context);
-    // }
-
-    // Future<void> _login() async {
-    //   if (!_formKey.currentState.validate()) return null;
-    //   _formKey.currentState.save();
-
-    //   setState(() => _isLoading = true);
-
-    //   try {
-    //     final _authProvider = Provider.of<AuthProvider>(context, listen: false);
-    //     await _authProvider.login(
-    //         email: _authData["email"], password: _authData["password"]);
-
-    //     setState(() => _isLoading = false);
-    //     Navigator.of(context).pushReplacementNamed(Userhome.routeName);
-    //   } catch (e) {
-    //     setState(() => _isLoading = false);
-    //     erorHandler(e);
-    //   }
-    // }
-
     return Scaffold(
+      appBar: AppBar(title: Text("Admin Login")),
       body: SafeArea(
           child: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -90,17 +97,14 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                 ? CircularProgressIndicator()
                 : CustomRectangularBtn(
                     color: Theme.of(context).primaryColor,
-                    onPressed: () {
-                      Navigator.pushReplacementNamed(
-                          context, AdminHome.routeName);
-                    },
+                    onPressed: login,
                     title: "LOGIN",
                   ),
             const SizedBox(height: 20),
             GestureDetector(
               onTap: () {
                 Navigator.pushReplacementNamed(
-                    context, UserRegistorScreen.routeName);
+                    context, AdminRegistorScreen.routeName);
               },
               child: _isLoading
                   ? CircularProgressIndicator()
