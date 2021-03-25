@@ -50,8 +50,9 @@ class AdminHome extends StatelessWidget {
             const SizedBox(height: 10),
             CustomRectangularBtn(
               color: Theme.of(context).accentColor,
-              onPressed: () {
-                Provider.of<AuthProvider>(context, listen: false).logout();
+              onPressed: () async {
+                await Provider.of<AuthProvider>(context, listen: false)
+                    .logout();
                 Navigator.pushReplacementNamed(
                     context, AdminLoginScreen.routeName);
               },

@@ -8,6 +8,7 @@ import 'package:qr_user/core/validators/validator.dart';
 import 'dio_serices_API.dart';
 import 'firebase_cloud_storage.dart';
 import 'firebaseauth.dart';
+import 'google_sigin.dart';
 
 GetIt locator = GetIt.instance;
 
@@ -24,4 +25,6 @@ void serviceLocators() {
 
   locator.registerLazySingleton<FirebaseCloudStorageServices>(
       () => FirebaseCloudStorageServices());
+  locator.registerLazySingleton<FirebaseGoogleAuthServices>(
+      () => FirebaseGoogleAuthServices());
 }

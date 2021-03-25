@@ -93,8 +93,9 @@ class Userhome extends StatelessWidget {
             const SizedBox(height: 10),
             CustomRectangularBtn(
               color: Theme.of(context).primaryColor,
-              onPressed: () {
-                Provider.of<AuthProvider>(context, listen: false).logout();
+              onPressed: () async {
+                await Provider.of<AuthProvider>(context, listen: false)
+                    .logout();
                 Navigator.pushReplacementNamed(context, LoginScreen.routeName);
               },
               verticalPadding: 20,

@@ -1,8 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_user/core/functions/error_handler_func.dart';
 import 'package:qr_user/core/provider/authProvider.dart';
 import 'package:qr_user/core/services/dependecyInjection.dart';
+import 'package:qr_user/core/services/google_sigin.dart';
 import 'package:qr_user/core/validators/validator.dart';
 import 'package:qr_user/screens/adminhome.dart';
 import 'package:qr_user/screens/adminregistor.dart';
@@ -20,8 +22,11 @@ bool _isLoading = false;
 
 class _AdminLoginScreenState extends State<AdminLoginScreen> {
   Validators _validators = locator<Validators>();
+  bool _isGoogleLoading = false;
   final GlobalKey<ScaffoldMessengerState> _scaffoldKey =
       GlobalKey<ScaffoldMessengerState>();
+  FirebaseGoogleAuthServices _googleAuthServices =
+      locator<FirebaseGoogleAuthServices>();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   Map<String, String> _authData = {
     'email': '',
@@ -53,10 +58,32 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
     }
   }
 
+  Future<void> googleSignin() async {
+    setState(() => _isGoogleLoading = true);
+
+    try {
+      User _user = await _googleAuthServices.signIn();
+      if (_user == null) return null;
+
+      // String _idToken = await _user.getIdToken();
+
+      // await Provider.of<AuthProvider>(context, listen: false)
+      //     .googleSigin(email: _user.email, token: _idToken);
+      await Provider.of<AuthProvider>(context, listen: false)
+          .googleSigin(isAdmin: true, email: _user.email);
+
+      setState(() => _isGoogleLoading = false);
+      Navigator.pushReplacementNamed(context, AdminHome.routeName);
+    } catch (e) {
+      setState(() => _isGoogleLoading = false);
+      errorHandler(e, _scaffoldKey, context);
+      print(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Admin Login")),
       body: SafeArea(
           child: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -94,6 +121,16 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                     color: Theme.of(context).accentColor,
                     onPressed: login,
                     title: "LOGIN",
+                  ),
+            const SizedBox(height: 20),
+            _isGoogleLoading
+                ? CircularProgressIndicator()
+                : GestureDetector(
+                    onTap: googleSignin,
+                    child: Image.asset(
+                      "assets/images/google.png",
+                      scale: 1.5,
+                    ),
                   ),
             const SizedBox(height: 20),
             GestureDetector(

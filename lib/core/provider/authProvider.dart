@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_user/core/databases/userDetailsdatabase.dart';
@@ -8,6 +10,7 @@ import 'package:qr_user/core/services/dependecyInjection.dart';
 import 'package:qr_user/core/services/dio_serices_API.dart';
 import 'package:qr_user/core/services/firebase_cloud_storage.dart';
 import 'package:qr_user/core/services/firebaseauth.dart';
+import 'package:qr_user/core/services/google_sigin.dart';
 
 class AuthProvider with ChangeNotifier {
   DioAPIServices _dioAPIServices = locator<DioAPIServices>();
@@ -17,6 +20,8 @@ class AuthProvider with ChangeNotifier {
   UserDatabase _userdatabase = locator<UserDatabase>();
   UserDetailsDatabase _userDetailsDatabase = locator<UserDetailsDatabase>();
   FirebaseAuthEmail _firebaseAuthEmail = locator<FirebaseAuthEmail>();
+  FirebaseGoogleAuthServices _googleSignIns =
+      locator<FirebaseGoogleAuthServices>();
   FirebaseAuth _firebaseAuth = locator<FirebaseAuth>();
   FirebaseCloudStorageServices _cloudStorage =
       locator<FirebaseCloudStorageServices>();
@@ -107,13 +112,42 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
-  void logout() async {
+  //? TODO
+  Future<void> googleSigin({String token, String email, bool isAdmin}) async {
+    try {
+      // Map _data = {'token': token, 'email': email};
+
+      // final _fetchgData = await _dioAPIServices
+      //     .postAPI(url: 'externalsigin/google', body: _data)
+      //     .toString();
+      //!fdfdfv
+
+      await _googleSignIns.signIn();
+      // print(_fetchgData);
+      UserModel _userDataTemp =
+          UserModel(emal: email, password: '', isAdmin: isAdmin);
+
+      _userData = _userDataTemp;
+
+      // _userDatabase.addData(_userData);
+
+      notifyListeners();
+      _userDataSave(_userDataTemp);
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  //! google signout added
+  Future<void> logout() async {
     _userdatabase.deleteData();
     _userDetailsDatabase.deleteData();
     await _firebaseAuthEmail.logout();
+    await _googleSignIns.signout();
     notifyListeners();
   }
 
+  //!user details
   Future<void> saveData({@required Map data}) async {
     try {
       await _cloudStorage.addData(email: _userData.emal, data: data);
@@ -122,6 +156,7 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
+  //!userdetails
   Future<List<Map>> acessData() async {
     try {
       _usersFetchedData = await _cloudStorage.getData(email: _userData.emal);

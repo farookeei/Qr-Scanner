@@ -57,9 +57,6 @@ class _UserRegistorScreenState extends State<AdminRegistorScreen> {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Admin Registor"),
-      ),
       body: SafeArea(
           child: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 12),
