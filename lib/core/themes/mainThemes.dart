@@ -27,7 +27,7 @@ ThemeData themes() {
       accentTextTheme: accentTextTheme(),
       textTheme: texttheme(),
       primaryColor: Colors.blue,
-      accentColor: Color(0xff8FA620),
+      accentColor: Colors.red,
       scaffoldBackgroundColor: Colors.white,
       appBarTheme: appBarTheme());
 }

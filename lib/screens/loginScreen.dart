@@ -31,9 +31,6 @@ class _LoginScreenState extends State<LoginScreen> {
       'email': '',
       'password': '',
     };
-    void erorHandler(e) {
-      errorHandler(e, _scaffoldKey, context);
-    }
 
     Future<void> _login() async {
       if (!_formKey.currentState.validate()) return null;
@@ -50,7 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
         Navigator.of(context).pushReplacementNamed(Userhome.routeName);
       } catch (e) {
         setState(() => _isLoading = false);
-        erorHandler(e);
+        errorHandler(e, _scaffoldKey, context);
       }
     }
 

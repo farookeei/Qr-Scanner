@@ -7,9 +7,6 @@ import 'package:qr_user/core/validators/validator.dart';
 import 'package:qr_user/screens/adminhome.dart';
 import 'package:qr_user/screens/adminregistor.dart';
 import 'package:qr_user/screens/allScreens.dart';
-import 'package:qr_user/screens/generate_qr.dart';
-import 'package:qr_user/screens/user_registor.dart';
-import 'package:qr_user/screens/userhome.dart';
 import 'package:qr_user/widgets/customRectBtn.dart';
 import 'package:qr_user/widgets/customTextFormField.dart';
 
@@ -30,9 +27,6 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
     'email': '',
     'password': '',
   };
-  // void erorHandler(e) {
-  //   errorHandler(e, _scaffoldKey, context);
-  // }
 
   Future<void> login() async {
     if (!_formKey.currentState.validate()) return;
@@ -49,11 +43,12 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
       // if (_authProvider.isUserAdmin) {
       //   Navigator.pushReplacementNamed(context, AdminHome.routeName);
       // }
-      print("object");
+
       setState(() => _isLoading = false);
       Navigator.pushReplacementNamed(context, AdminHome.routeName);
     } catch (e) {
       setState(() => _isLoading = false);
+      errorHandler(e, _scaffoldKey, context);
       print(e);
     }
   }
@@ -68,7 +63,7 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Image.asset("assets/images/login.png"),
+            Image.asset("assets/images/adminLogin.png"),
             Form(
                 key: _formKey,
                 child: Column(
@@ -96,7 +91,7 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
             _isLoading
                 ? CircularProgressIndicator()
                 : CustomRectangularBtn(
-                    color: Theme.of(context).primaryColor,
+                    color: Theme.of(context).accentColor,
                     onPressed: login,
                     title: "LOGIN",
                   ),

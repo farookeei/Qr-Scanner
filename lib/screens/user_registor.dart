@@ -32,9 +32,6 @@ class _UserRegistorScreenState extends State<UserRegistorScreen> {
     };
 
     //? to be given in signup func for error handling
-    void erorHandler(e) {
-      errorHandler(e, _scaffoldKey, context);
-    }
 
     // ScaffoldMessenger.of(context)
     //         .showSnackBar(const SnackBar(content: Text("Email Exists")));
@@ -53,7 +50,7 @@ class _UserRegistorScreenState extends State<UserRegistorScreen> {
         Navigator.pushReplacementNamed(context, Userhome.routeName);
       } catch (e) {
         setState(() => _isLoading = false);
-        erorHandler(e);
+        errorHandler(e, _scaffoldKey, context);
       }
     }
 

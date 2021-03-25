@@ -89,7 +89,7 @@ class _UserDetailsEditScreenState extends State<UserDetailsEditScreen> {
                   _editedDetails = UserDetailsModel(
                       address: _editedDetails.address,
                       phoneNumber: _editedDetails.phoneNumber,
-                      name: value);
+                      name: value.trim());
                 },
               ),
               const SizedBox(height: 12),
@@ -102,7 +102,7 @@ class _UserDetailsEditScreenState extends State<UserDetailsEditScreen> {
                   _editedDetails = UserDetailsModel(
                       address: _editedDetails.address,
                       name: _editedDetails.name,
-                      phoneNumber: int.parse(value));
+                      phoneNumber: int.parse(value.trim()));
                 },
               ),
               const SizedBox(height: 12),
@@ -114,7 +114,7 @@ class _UserDetailsEditScreenState extends State<UserDetailsEditScreen> {
                 onSaved: (value) {
                   _editedDetails = UserDetailsModel(
                       name: _editedDetails.name,
-                      address: value,
+                      address: value.trim(),
                       phoneNumber: _editedDetails.phoneNumber);
                 },
               ),

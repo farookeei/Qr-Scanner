@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:qr_user/core/provider/authProvider.dart';
+import 'package:qr_user/screens/adminLogin.dart';
+import 'package:qr_user/screens/fetchDetails.dart';
 import 'package:qr_user/screens/scanQr.dart';
 
 import 'package:qr_user/widgets/customRectBtn.dart';
@@ -28,23 +32,29 @@ class AdminHome extends StatelessWidget {
               title: "Scan QR Code",
             ),
             const SizedBox(height: 10),
+            // CustomRectangularBtn(
+            //   color: Colors.grey,
+            //   onPressed: () {},
+            //   verticalPadding: 15,
+            //   title: "Upload scanned details",
+            // ),
+
             CustomRectangularBtn(
               color: Colors.grey,
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamed(context, FetchDetails.routeName);
+              },
               verticalPadding: 15,
-              title: "Upload scanned details",
+              title: "Scanned User details",
             ),
             const SizedBox(height: 10),
             CustomRectangularBtn(
-              color: Colors.grey,
-              onPressed: () {},
-              verticalPadding: 15,
-              title: "Manage details",
-            ),
-            const SizedBox(height: 10),
-            CustomRectangularBtn(
-              color: Theme.of(context).primaryColor,
-              onPressed: () {},
+              color: Theme.of(context).accentColor,
+              onPressed: () {
+                Provider.of<AuthProvider>(context, listen: false).logout();
+                Navigator.pushReplacementNamed(
+                    context, AdminLoginScreen.routeName);
+              },
               verticalPadding: 20,
               title: "LOGOUT",
             )

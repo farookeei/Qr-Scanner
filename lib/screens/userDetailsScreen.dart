@@ -37,26 +37,6 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
     'phoneNumber': '',
   };
 
-  // @override
-  // void didChangeDependencies() {
-  //   if (_isInit) {
-  //     // final userId = ModalRoute.of(context).settings.arguments as String;
-  //     // _editedDetails = Provider.of<UserdetailsProvider>(context, listen: false)
-  //     //     .findById(userId);
-  //     final UserDetailsModel userDetails =
-  //         Provider.of<UserdetailsProvider>(context, listen: false)
-  //             .userDetailsData;
-  //     print("object");
-  //     _initValues = {
-  //       'name': userDetails.name,
-  //       'address': userDetails.address,
-  //       'phoneNumber': userDetails.phoneNumber.toString(),
-  //     };
-  //   }
-  //   _isInit = false;
-  //   super.didChangeDependencies();
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,7 +58,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                   _editedDetails = UserDetailsModel(
                       address: _editedDetails.address,
                       phoneNumber: _editedDetails.phoneNumber,
-                      name: value);
+                      name: value.trim());
                 },
               ),
               const SizedBox(height: 12),
@@ -91,7 +71,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                   _editedDetails = UserDetailsModel(
                       address: _editedDetails.address,
                       name: _editedDetails.name,
-                      phoneNumber: int.parse(value));
+                      phoneNumber: int.parse(value.trim()));
                 },
               ),
               const SizedBox(height: 12),
@@ -103,7 +83,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                 onSaved: (value) {
                   _editedDetails = UserDetailsModel(
                       name: _editedDetails.name,
-                      address: value,
+                      address: value.trim(),
                       phoneNumber: _editedDetails.phoneNumber);
                 },
               ),

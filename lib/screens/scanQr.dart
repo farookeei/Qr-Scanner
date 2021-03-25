@@ -1,6 +1,7 @@
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:qr_user/core/functions/error_handler_func.dart';
 import 'package:qr_user/core/provider/authProvider.dart';
 import 'package:qr_user/widgets/customRectBtn.dart';
 import 'dart:convert';
@@ -15,6 +16,9 @@ class ScanPage extends StatefulWidget {
 bool uploadLoader = false;
 
 class _ScanPageState extends State<ScanPage> {
+  final GlobalKey<ScaffoldMessengerState> _scaffoldKey =
+      GlobalKey<ScaffoldMessengerState>();
+
   Map<String, dynamic> _persdata = {
     'name': '',
     'address': '',
@@ -24,10 +28,22 @@ class _ScanPageState extends State<ScanPage> {
   String qrCodeResult = "Not Yet Scanned";
 
   Future<void> saveData() async {
-    uploadLoader = true;
-    await Provider.of<AuthProvider>(context, listen: false)
-        .saveData(data: _persdata);
-    uploadLoader = false;
+    try {
+      setState(() => uploadLoader = true);
+      await Provider.of<AuthProvider>(context, listen: false)
+          .saveData(data: _persdata);
+      setState(() => uploadLoader = false);
+      errorHandler("Succefully Uploaded", _scaffoldKey, context);
+      setState(() {
+        _persdata = {
+          "name": '',
+          "address": '',
+          "phoneNumber": '',
+        };
+      });
+    } catch (e) {
+      errorHandler(e, _scaffoldKey, context);
+    }
   }
 
   @override
@@ -72,7 +88,6 @@ class _ScanPageState extends State<ScanPage> {
                       String codeSanner =
                           await BarcodeScanner.scan(); //barcode scnner
                       setState(() {
-                        // qrCodeResult = codeSanner;
                         _persdata = jsonDecode(codeSanner);
                       });
 
@@ -86,12 +101,14 @@ class _ScanPageState extends State<ScanPage> {
                     horizontalPadding: 15.0,
                   ),
             uploadLoader
-                ? CircularProgressIndicator()
-                : CustomRectangularBtn(
-                    title: "Upload",
-                    onPressed: saveData,
-                    color: Theme.of(context).accentColor,
-                  ),
+                ? Center(child: CircularProgressIndicator())
+                : _persdata["name"] == ""
+                    ? SizedBox()
+                    : CustomRectangularBtn(
+                        title: "Upload",
+                        onPressed: saveData,
+                        color: Theme.of(context).accentColor,
+                      ),
           ],
         ),
       ),

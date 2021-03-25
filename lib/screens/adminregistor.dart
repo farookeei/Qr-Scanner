@@ -41,11 +41,19 @@ class _UserRegistorScreenState extends State<AdminRegistorScreen> {
     //         .showSnackBar(const SnackBar(content: Text("Email Exists")));
 
     Future<void> registor() async {
-      if (!_formKey.currentState.validate()) return;
+      if (!_formKey.currentState.validate()) return null;
       _formKey.currentState.save();
 
-      Provider.of<AuthProvider>(context, listen: false).adminSingup(
-          email: _authData["email"], password: _authData["password"]);
+      setState(() => _isLoading = true);
+      try {
+        await Provider.of<AuthProvider>(context, listen: false).adminSingup(
+            email: _authData["email"], password: _authData["password"]);
+        setState(() => isLoading = false);
+        Navigator.pushReplacementNamed(context, AdminHome.routeName);
+      } catch (e) {
+        setState(() => isLoading = false);
+        errorHandler(e, _scaffoldKey, context);
+      }
     }
 
     return Scaffold(
@@ -59,7 +67,9 @@ class _UserRegistorScreenState extends State<AdminRegistorScreen> {
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset("assets/images/login.png"),
+            Image.asset(
+              "assets/images/adminLogin.png",
+            ),
             Form(
                 key: _formKey,
                 child: Column(
@@ -96,7 +106,7 @@ class _UserRegistorScreenState extends State<AdminRegistorScreen> {
             _isLoading
                 ? CircularProgressIndicator()
                 : CustomRectangularBtn(
-                    color: Theme.of(context).primaryColor,
+                    color: Theme.of(context).accentColor,
                     onPressed: registor,
                     title: "SIGNUP",
                   ),

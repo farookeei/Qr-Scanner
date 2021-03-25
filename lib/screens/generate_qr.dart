@@ -57,25 +57,6 @@ class GeneratePageState extends State<GeneratePage> {
 
   @override
   Widget build(BuildContext context) {
-    // void printdata() {
-    //   String datas = "a \n b ,\n c ";
-    //   int i1 = datas.indexOf('\n');
-
-    //   List parts = [datas.substring(0, i1), datas.substring(i1 + 1)];
-    //   int i2 = parts[1].toString().indexOf("\n");
-    //   //  int i3 = parts[1].toString().indexOf(pattern)
-
-    //   List realParts = [
-    //     datas.substring(0, i1),
-    //     datas.substring(i2),
-    //     datas.substring(i2 + 1)
-    //   ];
-    //   print(parts[1]);
-    //   // print(realParts[0]);
-    //   // print(realParts[1]);
-    //   // print(realParts[2]);
-    // }
-
     return Scaffold(
       appBar: AppBar(
         title: Text('QR Code Generator'),
@@ -96,12 +77,6 @@ class GeneratePageState extends State<GeneratePage> {
               const SizedBox(
                 height: 40.0,
               ),
-              // TextField(
-              //   controller: qrdataFeed,
-              //   decoration: InputDecoration(
-              //     hintText: "Enter Name ",
-              //   ),
-              // ),
               CustomRectangularBtn(
                 onPressed: () {
                   setState(() {
@@ -120,8 +95,6 @@ class GeneratePageState extends State<GeneratePage> {
       ),
     );
   }
-
-  // final qrdataFeed = TextEditingController();
 }
 
 

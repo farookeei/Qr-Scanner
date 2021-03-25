@@ -1,5 +1,11 @@
 export './loginScreen.dart';
 export './generate_qr.dart';
-export 'userhome.dart';
+export './userhome.dart';
 export './adminhome.dart';
 export './userDetailsScreen.dart';
+export './adminLogin.dart';
+export './adminregistor.dart';
+export './fetchDetails.dart';
+export './scanQr.dart';
+export './userDetailsEditScreen.dart';
+export './user_registor.dart';

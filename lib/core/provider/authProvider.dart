@@ -12,6 +12,7 @@ import 'package:qr_user/core/services/firebaseauth.dart';
 class AuthProvider with ChangeNotifier {
   DioAPIServices _dioAPIServices = locator<DioAPIServices>();
   UserModel _userData;
+  List<Map> _usersFetchedData = [];
   //!Login
   UserDatabase _userdatabase = locator<UserDatabase>();
   UserDetailsDatabase _userDetailsDatabase = locator<UserDetailsDatabase>();
@@ -29,6 +30,8 @@ class AuthProvider with ChangeNotifier {
   bool get isUserAdmin => _userData.isAdmin == null ? false : _userData.isAdmin;
 
   UserModel get userData => _userData;
+
+  List<Map> get userFetchedData => _usersFetchedData;
 
   Future<void> _userDataSave(UserModel data) async {
     _userdatabase.addData(data);
@@ -77,7 +80,7 @@ class AuthProvider with ChangeNotifier {
           email: email, password: password);
 
       UserModel _userDataTemp =
-          UserModel(emal: email, password: password, isAdmin: false);
+          UserModel(emal: email, password: password, isAdmin: true);
 
       _userData = _userDataTemp;
       notifyListeners();
@@ -94,7 +97,7 @@ class AuthProvider with ChangeNotifier {
           email: email, password: password);
 
       UserModel _userDataTemp =
-          UserModel(emal: email, password: password, isAdmin: false);
+          UserModel(emal: email, password: password, isAdmin: true);
 
       _userData = _userDataTemp;
       notifyListeners();
@@ -121,9 +124,8 @@ class AuthProvider with ChangeNotifier {
 
   Future<List<Map>> acessData() async {
     try {
-      final List<Map> _data =
-          await _cloudStorage.getData(email: _userData.emal);
-      return _data;
+      _usersFetchedData = await _cloudStorage.getData(email: _userData.emal);
+      return _usersFetchedData;
     } catch (e) {
       throw e;
     }

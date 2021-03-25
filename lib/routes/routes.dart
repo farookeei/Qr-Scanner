@@ -1,9 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:qr_user/screens/adminLogin.dart';
-import 'package:qr_user/screens/adminregistor.dart';
-import 'package:qr_user/screens/scanQr.dart';
-import 'package:qr_user/screens/userDetailsEditScreen.dart';
-import 'package:qr_user/screens/user_registor.dart';
 import '../screens/allScreens.dart';
 
 Map<String, WidgetBuilder> routes() {
@@ -18,5 +13,6 @@ Map<String, WidgetBuilder> routes() {
     UserDetailsScreen.routeName: (ctx) => UserDetailsScreen(),
     AdminLoginScreen.routeName: (ctx) => AdminLoginScreen(),
     AdminRegistorScreen.routeName: (ctx) => AdminRegistorScreen(),
+    FetchDetails.routeName: (ctx) => FetchDetails(),
   };
 }
