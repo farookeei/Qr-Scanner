@@ -7,8 +7,6 @@ import 'package:qr_user/core/provider/providers_list.dart';
 import 'package:qr_user/core/themes/mainThemes.dart';
 import 'package:qr_user/routes/routes.dart';
 import 'package:qr_user/screens/allScreens.dart';
-import 'package:qr_user/screens/wrapper.dart';
-
 import 'core/databases/databaseConfigs.dart';
 import 'core/env/env_configs.dart';
 import 'core/services/dependecyInjection.dart';

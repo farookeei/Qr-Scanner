@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_user/core/functions/error_handler_func.dart';
@@ -23,6 +24,47 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  @override
+  void initState() {
+    super.initState();
+    final fbm = FirebaseMessaging();
+    fbm.requestNotificationPermissions();
+
+    //!onMessage foregrond
+    fbm.configure(onMessage: (msg) {
+      print(msg);
+
+      return showDialog(
+          context: context,
+          builder: (_) {
+            return AlertDialog(
+              content: ListTile(
+                title: Text(
+                  msg['notification']['title'],
+                  style: Theme.of(context).primaryTextTheme.headline6,
+                ),
+                subtitle: Text(
+                  msg['notification']['body'],
+                  style: Theme.of(context).primaryTextTheme.bodyText1,
+                ),
+              ),
+              actions: <Widget>[
+                TextButton(
+                    onPressed: () => Navigator.pop(context), child: Text("OK"))
+              ],
+            );
+          });
+
+      //!launch terminated
+    }, onLaunch: (msg) {
+      print(msg);
+      return;
+    }, onResume: (msg) {
+      print(msg);
+      return;
+    });
+  }
+
   bool _isLoading = false;
   bool _isGoogleLoading = false;
   Validators _validators = locator<Validators>();
