@@ -16,6 +16,7 @@ import 'package:qr_user/screens/user_registor.dart';
 import 'package:qr_user/screens/userhome.dart';
 import 'package:qr_user/widgets/customRectBtn.dart';
 import 'package:qr_user/widgets/customTextFormField.dart';
+import 'package:qr_user/widgets/handlingNotifications.dart';
 
 class LoginScreen extends StatefulWidget {
   static const routeName = "/login";
@@ -27,42 +28,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
-    final fbm = FirebaseMessaging();
-    fbm.requestNotificationPermissions();
-
-    //!onMessage foregrond
-    fbm.configure(onMessage: (msg) {
-      print(msg);
-
-      return showDialog(
-          context: context,
-          builder: (_) {
-            return AlertDialog(
-              content: ListTile(
-                title: Text(
-                  msg['notification']['title'],
-                  style: Theme.of(context).primaryTextTheme.headline6,
-                ),
-                subtitle: Text(
-                  msg['notification']['body'],
-                  style: Theme.of(context).primaryTextTheme.bodyText1,
-                ),
-              ),
-              actions: <Widget>[
-                TextButton(
-                    onPressed: () => Navigator.pop(context), child: Text("OK"))
-              ],
-            );
-          });
-
-      //!launch terminated
-    }, onLaunch: (msg) {
-      print(msg);
-      return;
-    }, onResume: (msg) {
-      print(msg);
-      return;
-    });
+    handleNotifications(context);
   }
 
   bool _isLoading = false;

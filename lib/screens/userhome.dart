@@ -8,15 +8,27 @@ import 'package:qr_user/screens/loginScreen.dart';
 import 'package:qr_user/screens/userDetailsEditScreen.dart';
 import 'package:qr_user/screens/userDetailsScreen.dart';
 import 'package:qr_user/widgets/customRectBtn.dart';
+import 'package:qr_user/widgets/handlingNotifications.dart';
 
-class Userhome extends StatelessWidget {
+class Userhome extends StatefulWidget {
   final String id;
   Userhome({this.id});
 
   static const routeName = "/user-home";
 
+  @override
+  _UserhomeState createState() => _UserhomeState();
+}
+
+class _UserhomeState extends State<Userhome> {
   final GlobalKey<ScaffoldMessengerState> _scaffoldKey =
       GlobalKey<ScaffoldMessengerState>();
+
+  @override
+  void initState() {
+    super.initState();
+    handleNotifications(context);
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -6,9 +6,21 @@ import 'package:qr_user/screens/fetchDetails.dart';
 import 'package:qr_user/screens/scanQr.dart';
 
 import 'package:qr_user/widgets/customRectBtn.dart';
+import 'package:qr_user/widgets/handlingNotifications.dart';
 
-class AdminHome extends StatelessWidget {
+class AdminHome extends StatefulWidget {
   static const routeName = "/admin-home";
+
+  @override
+  _AdminHomeState createState() => _AdminHomeState();
+}
+
+class _AdminHomeState extends State<AdminHome> {
+  @override
+  void initState() {
+    super.initState();
+    handleNotifications(context);
+  }
 
   @override
   Widget build(BuildContext context) {

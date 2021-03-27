@@ -4,6 +4,7 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:qr_user/core/models/user_details_model.dart';
 import 'package:qr_user/core/provider/userDetailsProvider.dart';
 import 'package:qr_user/widgets/customRectBtn.dart';
+import 'package:qr_user/widgets/handlingNotifications.dart';
 
 class GeneratePage extends StatefulWidget {
   static const routeName = "/generate-qr";
@@ -23,6 +24,12 @@ class GeneratePageState extends State<GeneratePage> {
     'address': '',
     'phoneNumber': '',
   };
+
+  @override
+  void initState() {
+    super.initState();
+    handleNotifications(context);
+  }
 
   @override
   void didChangeDependencies() {

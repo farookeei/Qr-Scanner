@@ -6,6 +6,7 @@ import 'package:qr_user/core/services/dependecyInjection.dart';
 import 'package:qr_user/core/validators/validator.dart';
 import 'package:qr_user/widgets/customRectBtn.dart';
 import 'package:qr_user/widgets/customTextFormField.dart';
+import 'package:qr_user/widgets/handlingNotifications.dart';
 
 class UserDetailsEditScreen extends StatefulWidget {
   static const routeName = "/UserDetailsEditScreen";
@@ -36,6 +37,12 @@ class _UserDetailsEditScreenState extends State<UserDetailsEditScreen> {
     'address': '',
     'phoneNumber': '',
   };
+
+  @override
+  void initState() {
+    super.initState();
+    handleNotifications(context);
+  }
 
   @override
   void didChangeDependencies() {

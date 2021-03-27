@@ -11,6 +11,7 @@ import 'package:qr_user/screens/adminregistor.dart';
 import 'package:qr_user/screens/allScreens.dart';
 import 'package:qr_user/widgets/customRectBtn.dart';
 import 'package:qr_user/widgets/customTextFormField.dart';
+import 'package:qr_user/widgets/handlingNotifications.dart';
 
 class AdminLoginScreen extends StatefulWidget {
   static const routeName = "/admin-login";
@@ -79,6 +80,12 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
       errorHandler(e, _scaffoldKey, context);
       print(e);
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    handleNotifications(context);
   }
 
   @override
